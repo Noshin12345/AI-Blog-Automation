@@ -1,0 +1,309 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Write a professional, engaging, and SEO-optimized blog article on the market for: \"{{ $json.Keyword }}\".\n\nInstructions:\n\nLength: 1000–1500 words\n\nStyle: Plagiarism-free, human-like writing that scores 0% AI detection\n\nLanguage Level: IELTS Band 7 (clear, professional, natural flow)\n\nFormatting: Use real HTML tags (<h2>, <p>, <table>, <tr>, <td>) for structure. Keep paragraphs short and easy to read. Use tables, bullet points, and subheadings where needed.\n\nSpecial Hyperlink Instructions:\n\nDonot write anything about iBOS here\n.\n\nFor Aerodrop, include two hyperlinks:\n\nThe first occurrence of Aerodrop should link to Shopify: https://apps.shopify.com/aerodrop-1?search_id=1b937dca-f186-4b07-94b7-4e4ecc9aabd6&surface_detail=aerodrop&surface_inter_position=1&surface_intra_position=1&surface_type=search\n\nAdd a CTA at the end linking to the Aerodrop home page: https://aerodrop.ai/\n.\n\nContent Structure:\n\nTitle: Short, keyword-rich, clear (Example: n8n Automation is Booming in Email Marketing 2025)\n\nIntroduction (2–3 paragraphs):\n\nProblem / Trend (what’s changing)\n\nSolution / Relevance (how the topic/tool fits in)\n\nPromise (what the reader will gain)\n\nWhy This Topic Matters / Background:\n\nExplain trend, market growth, demand\n\nInclude 2–3 bullet points with stats or insights\n\nKey Benefits / Features: Use table format\n| Benefit | Explanation | Example Use Case |\n\nHow It Works (Practical Examples):\n\nStep-by-step workflows or case studies\n\nInclude 2–4 examples (e.g., Cart abandonment → trigger + action)\n\nComparison (Optional):\n\nCompare with other tools or competitors\n\nAlways position our company/service at the top\n\nWhy Choose [Company/Service Provider]:\n\nShow expertise, trust, reliability\n\nInclude proof: industries served, global reach, cost-effectiveness\n\nNote: For informational blogs, include “How We Help” at the end\n\nCommon Use Cases:\n\nShort bullet points (eCommerce, B2B, Support, Events)\n\nBest Practices / Tips: 3–5 actionable tips\n\nFAQs: 4–5 short Q&A for quick SEO wins\n\nConclusion:\n\nSummarize key insights\n\nEmphasize urgency or relevance\n\nInclude CTA (Encourage reader to work with us, adopt the tool, or contact us)",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -720,
+        0
+      ],
+      "id": "1353d263-f82c-48e4-96ca-a1fd526fe978",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -780,
+        240
+      ],
+      "id": "e4338af2-6f39-4a8a-9e05-a47020289082",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "SUyJI0IfI9M95Z5b",
+          "name": "OpenAi account 89"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "https://drive.google.com/file/d/1QeRBvKvFwVgE_XzHoqwox5CrA9U95sdi/view?usp=sharing",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -300,
+        0
+      ],
+      "id": "fc52b045-2b78-4670-8124-b3f311f8d94e",
+      "name": "Download Photo1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "V0o91LpOMNrsYCAB",
+          "name": "Google Drive account 27"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data[0].b64_json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        140,
+        0
+      ],
+      "id": "846b2994-005c-446a-b44e-58c660f34987",
+      "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/images/edits",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-image-1"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "image",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "prompt",
+              "value": "=1st Prompt- take inspiration from download photo 1:\nCreate a professional blog header image for AeroDrop with a clean, modern, split composition. The left half has a solid background in color #F16722 with large, bold white text showing {{ $('On form submission').item.json.Keyword }}, in a clean, modern sans-serif font, vertically centered. The right half features a realistic person (male, female, or gender-neutral) in business casual clothing, with facial expression, pose, and props that match the mood and context of {{ $('On form submission').item.json.Keyword }}. Always maintain a subtle dropshipping/e-commerce theme with minimal visual hints such as AliExpress and Shopify icons, storefront/product card shapes, or delivery package graphics in the background — soft and unobtrusive. Place the AeroDrop logo in the top-left corner exactly as shown in the provided reference image. Keep the style clean, minimal, and professional, with balanced lighting and composition.\n\nEnsure the title does not overlap with the image. Use visuals that match the tone of the title, such as happiness or relief. 2 ta image generate korbo. \n2nd Prompt- take inspiration from download photo \n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "a3880ce6-dca7-44e7-97ae-418378bb228b",
+      "name": "OpenAI Image2",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "R3U2Ms4hOUBO65vr",
+          "name": "Header Auth account 13"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "noshin@ibos.io",
+        "subject": "=Blog Draft for Approval: {{ $('On form submission').item.json.Keyword }}",
+        "message": "=\n{{ $('AI Agent').item.json.output }}\n",
+        "options": {
+          "appendAttribution": false,
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {}
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        420,
+        0
+      ],
+      "id": "96129345-2985-4ed2-9de3-4832d5009982",
+      "name": "Gmail",
+      "webhookId": "a84fcc80-1080-47b2-8954-819d367eff1d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0aySohzHmKKaX0pa",
+          "name": "Gmail account 107-noshin"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Keyword Collection",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Keyword",
+              "placeholder": "Dropshipping",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -960,
+        0
+      ],
+      "id": "81fd98ea-d04b-4783-a951-9fcf7ec8975e",
+      "name": "On form submission",
+      "webhookId": "56cf6844-b153-4b7d-af52-d1b110b1ae1e"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"{{ $json.Keyword }}\",\n  \"max_results\": 5,\n  \"topic\": \"general\",\n  \"include_answer\": true,\n  \"include_raw_content\": false\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        -560,
+        220
+      ],
+      "id": "0b0a208b-ed3a-420a-9f0d-ad2ac33bb397",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "GzoScXvInQr2TqdY",
+          "name": "Header Auth account 16"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "AeroDrops",
+        "height": 560,
+        "width": 2040
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1120,
+        -60
+      ],
+      "typeVersion": 1,
+      "id": "b620cca0-9514-46ec-8b13-cbf88fcdd4d3",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Download Photo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Photo1": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Image2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Image2": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        []
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5d927d9375747622767f095ddf723e3b731bdcb16f3cc831c46075d0d192f10c"
+  }
+}
